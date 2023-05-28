@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 
 import skmeans from "skmeans";
@@ -33,12 +32,15 @@ export default function Create() {
   ]);
   const [songInput, setSongInput] = useState("");
   const [category, setCategory] = useState("Hip hop | Jazz rap | Neo soul");
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     if (containerRef.current) {
       const resizeObserver = new ResizeObserver((entries) => {
         for (let entry of entries) {
           const width = entry.contentRect.height * 1.414;
+          //@ts-ignore
           entry.target.style.width = `${width}px`;
         }
       });
@@ -112,6 +114,7 @@ export default function Create() {
         type="file"
         ref={fileInputRef}
         onChange={(e) => {
+          //@ts-ignore
           const file = e.target.files[0];
           setFileState(file);
           processImage(file);
@@ -136,17 +139,18 @@ export default function Create() {
           ADD SONG
         </button>
       </div>
+      {isClient ? (
+        <PDFViewer className="w-screen h-screen" showToolbar>
+          {/* reload this each render */}
 
-      <PDFViewer className="w-screen h-screen" showToolbar>
-        {/* reload this each render */}
-
-        <PDF
-          imageSrc={fileState ? URL.createObjectURL(fileState) : ""}
-          category={category}
-          songs={songs}
-          colors={colors}
-        />
-      </PDFViewer>
+          <PDF
+            imageSrc={fileState ? URL.createObjectURL(fileState) : ""}
+            category={category}
+            songs={songs}
+            colors={colors}
+          />
+        </PDFViewer>
+      ) : null}
     </div>
   );
 }

@@ -56,7 +56,17 @@ export default function PDF({
   category,
   songs,
   colors,
+  albumName,
+  artistName,
+  length,
+  release_date,
+  label,
 }: {
+  release_date: string;
+  albumName: string;
+  artistName: string;
+  length: string;
+  label: string;
   imageSrc: string;
   category: string;
   songs: string[];
@@ -89,11 +99,23 @@ export default function PDF({
             </View>
 
             <View style={{ marginTop: 24 }}>
-              <Text style={{ fontFamily: "Oswald-light", fontSize: 10 }}>
-                46:33 / 21 JULY 2017
+              <Text
+                style={{
+                  fontFamily: "Oswald-light",
+                  fontSize: 10,
+                  textTransform: "uppercase",
+                }}
+              >
+                {length} / {release_date}
               </Text>
-              <Text style={{ fontFamily: "Oswald-light", fontSize: 10 }}>
-                RELEASED BY COLUMBIA RECORDS
+              <Text
+                style={{
+                  fontFamily: "Oswald-light",
+                  fontSize: 10,
+                  textTransform: "uppercase",
+                }}
+              >
+                RELEASED BY {label}
               </Text>
             </View>
           </View>
@@ -139,9 +161,9 @@ export default function PDF({
                 }}
               >
                 <Text style={{ fontSize: 18, fontFamily: "Oswald-regular" }}>
-                  Tyler, The Creator
+                  {artistName}
                 </Text>
-                <Text style={{ fontSize: 32 }}>Flower Boy</Text>
+                <Text style={{ fontSize: 32 }}>{albumName}</Text>
               </View>
             </View>
           </View>

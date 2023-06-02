@@ -105,7 +105,7 @@ export default function RenderPDF({ params }: { params: { id: string } }) {
           <Link href="/create" className="flex items-center justify-start p-2">
             <span className="text-white">Back to create</span>
           </Link>
-          <div className="pb-20 px-6 pt-12 rounded-md flex h-full w-full">
+          <div className="pb-20 pt-12 rounded-md flex h-full w-full">
             <PDFViewer height="100%" width="100%">
               <PDF
                 imageSrc={data?.imgUrl ?? ""}

@@ -5,7 +5,10 @@ import skmeans from "skmeans";
 import convert from "color-convert";
 import { PDFViewer } from "@react-pdf/renderer";
 import PDF from "./pdf";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { Login } from "../buttons";
 
 type Album = {
   name: string;
@@ -31,8 +34,7 @@ type Data = {
 };
 
 export default function Create() {
-  const session = useSession();
-  console.log("ses", session);
+  const { data: session, status } = useSession();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -156,6 +158,24 @@ export default function Create() {
       imgUrl: data.images[0].url,
       genres,
     });
+  }
+
+  if (status === "loading")
+    return (
+      <div className="flex h-screen justify-center items-center text-white text-2xl font-bold">
+        Authing...
+      </div>
+    );
+
+  if (status === "unauthenticated") {
+    return (
+      <div className="h-screen flex items-center justify-center flex-col">
+        <span className="text-2xl font-bold text-white p-2">
+          Please login to continue
+        </span>
+        <Login />
+      </div>
+    );
   }
 
   return (

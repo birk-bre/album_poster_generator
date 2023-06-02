@@ -101,23 +101,25 @@ export default function RenderPDF({ params }: { params: { id: string } }) {
   return (
     <>
       {isClient && !!data ? (
-        <div>
+        <div className="w-screen h-screen">
           <Link href="/create" className="flex items-center justify-start p-2">
             <span className="text-white">Back to create</span>
           </Link>
-          <PDFViewer className="w-screen h-screen" showToolbar>
-            <PDF
-              imageSrc={data?.imgUrl ?? ""}
-              category={data?.genres ?? ""}
-              songs={data?.tracks ?? []}
-              colors={data?.colors ?? []}
-              albumName={data?.albumName ?? ""}
-              artistName={data?.artistName ?? ""}
-              release_date={data?.relaseDate ?? ""}
-              label={data?.label ?? ""}
-              length={data?.length ?? ""}
-            />
-          </PDFViewer>
+          <div className="pb-20 px-6 pt-12 rounded-md flex h-full w-full">
+            <PDFViewer height="100%" width="100%">
+              <PDF
+                imageSrc={data?.imgUrl ?? ""}
+                category={data?.genres ?? ""}
+                songs={data?.tracks ?? []}
+                colors={data?.colors ?? []}
+                albumName={data?.albumName ?? ""}
+                artistName={data?.artistName ?? ""}
+                release_date={data?.relaseDate ?? ""}
+                label={data?.label ?? ""}
+                length={data?.length ?? ""}
+              />
+            </PDFViewer>
+          </div>
         </div>
       ) : null}
       <canvas ref={canvasRef} className="hidden"></canvas>

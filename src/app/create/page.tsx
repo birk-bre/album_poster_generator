@@ -70,7 +70,7 @@ export default function Create() {
         />
       </form>
 
-      <div className="grid lg:grid-cols-5 grid-cols-1 gap-8">
+      <div className="grid lg:grid-cols-5 grid-cols-1  gap-8">
         {albums.map((album) => (
           <Link href={`create/${album.id}`} key={album.id}>
             <div className="flex flex-col gap-2 items-center justify-center cursor-pointer hover:opacity-80">

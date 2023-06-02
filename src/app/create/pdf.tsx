@@ -6,10 +6,13 @@ import {
   Text,
   View,
   StyleSheet,
-  PDFViewer,
   Image,
   Font,
 } from "@react-pdf/renderer";
+
+const oswaldLight = require("./Oswald-Light.ttf");
+const oswaldBold = require("./Oswald-Bold.ttf");
+const oswaldRegular = require("./Oswald-Regular.ttf");
 
 const styles = StyleSheet.create({
   page: {
@@ -38,17 +41,17 @@ const styles = StyleSheet.create({
 
 Font.register({
   family: "Oswald-light",
-  src: "./Oswald-Light.ttf",
+  src: oswaldLight,
 });
 
 Font.register({
   family: "Oswald-bold",
-  src: "./Oswald-Bold.ttf",
+  src: oswaldBold,
 });
 
 Font.register({
   family: "Oswald-regular",
-  src: "./Oswald-Regular.ttf",
+  src: oswaldRegular,
 });
 
 export default function PDF({

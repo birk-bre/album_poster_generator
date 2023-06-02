@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Login } from "../buttons";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 type Album = {
   name: string;
@@ -13,12 +14,19 @@ type Album = {
 };
 
 export default function Create() {
+  const query = useSearchParams();
+  const searchQuery = query.get("search");
   const { data: session, status } = useSession();
 
   const [albums, setAlbums] = useState<Album[]>([]);
-  const [artist, setArtist] = useState("");
+  const [artist, setArtist] = useState(searchQuery || "");
+
+  useEffect(() => {
+    if (artist) handleSearch();
+  }, []);
 
   async function handleSearch() {
+    if (!artist) return;
     const URL = `https://api.spotify.com/v1/search?q=${artist}&type=album`;
 
     const res = await fetch(URL, {
@@ -72,7 +80,10 @@ export default function Create() {
 
       <div className="grid lg:grid-cols-5 grid-cols-1  gap-8">
         {albums.map((album) => (
-          <Link href={`create/${album.id}`} key={album.id}>
+          <Link
+            href={{ pathname: `create/${album.id}`, query: { search: artist } }}
+            key={album.id}
+          >
             <div className="flex flex-col gap-2 items-center justify-center cursor-pointer hover:opacity-80">
               <div className="relative group">
                 <img

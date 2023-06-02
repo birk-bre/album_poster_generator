@@ -4,8 +4,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import PDF from "../pdf";
 import { processImage } from "@/util/processImage";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import Link from "next/link";
+
 type Data = {
   colors: {
     r: number;
@@ -27,6 +28,7 @@ export default function RenderPDF({ params }: { params: { id: string } }) {
   const [data, setData] = useState<Data>();
   const [isClient, setIsClient] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const query = useSearchParams();
 
   const handleCreate = useMemo(
     () =>
@@ -102,7 +104,13 @@ export default function RenderPDF({ params }: { params: { id: string } }) {
     <>
       {isClient && !!data ? (
         <div className="w-screen h-screen">
-          <Link href="/create" className="flex items-center justify-start p-2">
+          <Link
+            href={{
+              pathname: "/create",
+              query: { search: query.get("search") },
+            }}
+            className="flex items-center justify-start p-2"
+          >
             <span className="text-white">Back to create</span>
           </Link>
           <div className="pb-20 pt-12 rounded-md flex h-full w-full">

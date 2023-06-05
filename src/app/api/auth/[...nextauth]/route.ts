@@ -10,7 +10,7 @@ const SPOTIFY_REFRESH_TOKEN_URL = "https://accounts.spotify.com/api/token";
 async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
     const basicAuth = Buffer.from(
-      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`
+      `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
     ).toString("base64");
 
     //rewrite the axios to fetch instead
@@ -26,7 +26,11 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
       }),
     });
 
+    console.log("RES", response);
+
     const data = await response.json();
+
+    console.log("DATA", data);
 
     return {
       ...token,

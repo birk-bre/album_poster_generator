@@ -1,6 +1,6 @@
 {
   "name": "album_poster_generator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,26 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-pdf/renderer": "^3.1.9",
-    "@types/node": "20.2.5",
-    "@types/react": "18.2.7",
-    "@types/react-dom": "18.2.4",
-    "autoprefixer": "10.4.14",
+    "@react-pdf/renderer": "^4.3.0",
     "color-convert": "^2.0.1",
-    "eslint": "8.41.0",
-    "eslint-config-next": "13.4.4",
-    "next": "13.4.4",
-    "next-auth": "^4.22.1",
-    "postcss": "8.4.24",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "skmeans": "^0.11.3",
-    "tailwindcss": "3.3.2",
-    "typescript": "5.0.4"
+    "next": "^15.3.1",
+    "next-auth": "^5.0.0-beta.25",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "skmeans": "^0.11.3"
   },
   "devDependencies": {
-    "@types/color-convert": "^2.0.0",
-    "@types/react-color": "^3.0.6",
-    "@types/skmeans": "^0.11.4"
+    "@types/color-convert": "^2.0.4",
+    "@types/node": "^22.15.3",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@types/skmeans": "^0.11.7",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.25.1",
+    "eslint-config-next": "^15.3.1",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3"
   }
 }

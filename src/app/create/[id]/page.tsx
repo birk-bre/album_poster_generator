@@ -123,7 +123,7 @@ function PosterContent() {
   return (
     <div className="flex min-h-screen flex-col animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-warm-800 px-6 py-4">
+      <div className="flex items-center justify-between border-b border-warm-800 px-6 py-4 pr-32">
         <Link
           href={{
             pathname: "/create",

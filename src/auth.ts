@@ -1,9 +1,9 @@
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthConfig } from "next-auth";
 import Spotify from "next-auth/providers/spotify";
 
 const SPOTIFY_REFRESH_TOKEN_URL = "https://accounts.spotify.com/api/token";
 
-async function refreshAccessToken(token: any) {
+async function refreshAccessToken(token: Record<string, unknown>) {
   try {
     const clientId =
       process.env.AUTH_SPOTIFY_ID ?? process.env.AUTH_SPOTIFY_CLIENT_ID ?? process.env.SPOTIFY_CLIENT_ID ?? "";
@@ -22,7 +22,7 @@ async function refreshAccessToken(token: any) {
       },
       body: new URLSearchParams({
         grant_type: "refresh_token",
-        refresh_token: token.refreshToken ?? "",
+        refresh_token: (token.refreshToken as string) ?? "",
       }),
     });
 
@@ -33,7 +33,7 @@ async function refreshAccessToken(token: any) {
     return {
       ...token,
       accessToken: data.access_token,
-      refreshToken: data.refresh_token ?? token.refreshToken,
+      refreshToken: data.refresh_token ?? (token.refreshToken as string),
       expiresAt: Math.floor(Date.now() / 1000) + data.expires_in,
     };
   } catch (error) {
@@ -44,7 +44,8 @@ async function refreshAccessToken(token: any) {
   }
 }
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const authConfig: NextAuthConfig = {
+  trustHost: true,
   providers: [
     Spotify({
       clientId:
@@ -54,11 +55,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         process.env.SPOTIFY_CLIENT_SECRET ??
         "",
       authorization: {
+        url: "https://accounts.spotify.com/authorize",
         params: {
           scope:
             "user-read-email user-read-private user-library-read user-top-read user-read-recently-played",
         },
       },
+      checks: ["pkce", "state"],
     }),
   ],
   callbacks: {
@@ -87,4 +90,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
-});
+};
+
+export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);

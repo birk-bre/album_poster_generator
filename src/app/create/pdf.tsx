@@ -11,10 +11,6 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
-const oswaldLight = require("./Oswald-Light.ttf");
-const oswaldBold = require("./Oswald-Bold.ttf");
-const oswaldRegular = require("./Oswald-Regular.ttf");
-
 const styles = StyleSheet.create({
   page: {
     padding: 24,
@@ -42,17 +38,17 @@ const styles = StyleSheet.create({
 
 Font.register({
   family: "Oswald-light",
-  src: oswaldLight,
+  src: "/fonts/Oswald-Light.ttf",
 });
 
 Font.register({
   family: "Oswald-bold",
-  src: oswaldBold,
+  src: "/fonts/Oswald-Bold.ttf",
 });
 
 Font.register({
   family: "Oswald-regular",
-  src: oswaldRegular,
+  src: "/fonts/Oswald-Regular.ttf",
 });
 
 export default function PDF({

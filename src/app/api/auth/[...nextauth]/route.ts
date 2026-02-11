@@ -41,9 +41,29 @@ function getConfig() {
 }
 
 export async function GET(req: NextRequest) {
-  return Auth(buildRequest(req), getConfig()) as Promise<Response>;
+  const builtReq = buildRequest(req);
+  console.log("[auth] GET", builtReq.url);
+  console.log("[auth] Cookie header:", builtReq.headers.get("cookie")?.substring(0, 200));
+  const response = (await Auth(builtReq, getConfig())) as Response;
+  const setCookies = response.headers.getSetCookie?.() ?? [];
+  if (setCookies.length > 0) {
+    console.log("[auth] Response Set-Cookie count:", setCookies.length);
+    setCookies.forEach((c) => console.log("[auth]  ", c.substring(0, 100)));
+  }
+  console.log("[auth] Response status:", response.status);
+  return response;
 }
 
 export async function POST(req: NextRequest) {
-  return Auth(buildRequest(req), getConfig()) as Promise<Response>;
+  const builtReq = buildRequest(req);
+  console.log("[auth] POST", builtReq.url);
+  console.log("[auth] Cookie header:", builtReq.headers.get("cookie")?.substring(0, 200));
+  const response = (await Auth(builtReq, getConfig())) as Response;
+  const setCookies = response.headers.getSetCookie?.() ?? [];
+  if (setCookies.length > 0) {
+    console.log("[auth] Response Set-Cookie count:", setCookies.length);
+    setCookies.forEach((c) => console.log("[auth]  ", c.substring(0, 100)));
+  }
+  console.log("[auth] Response status:", response.status);
+  return response;
 }

@@ -20,10 +20,8 @@ type Data = {
   genres: string;
 };
 
-function Spinner() {
-  return (
-    <div className="h-8 w-8 animate-spin rounded-full border-2 border-zinc-700 border-t-spotify-green" />
-  );
+function VinylSpinner() {
+  return <div className="vinyl-spinner" />;
 }
 
 function PosterContent() {
@@ -117,7 +115,7 @@ function PosterContent() {
   if (status === "loading" || !isClient) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <Spinner />
+        <VinylSpinner />
       </div>
     );
   }
@@ -125,16 +123,16 @@ function PosterContent() {
   return (
     <div className="flex min-h-screen flex-col animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-800 px-6 py-4">
+      <div className="flex items-center justify-between border-b border-warm-800 px-6 py-4">
         <Link
           href={{
             pathname: "/create",
             query: { search: query.get("search") },
           }}
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-zinc-100"
+          className="group inline-flex items-center gap-2 text-sm text-warm-400 transition-colors hover:text-accent"
         >
           <svg
-            className="h-4 w-4"
+            className="h-4 w-4 transition-transform group-hover:-translate-x-0.5"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={2}
@@ -149,43 +147,44 @@ function PosterContent() {
           Back to search
         </Link>
         {data && (
-          <div className="text-sm text-zinc-400">
-            {data.artistName} &mdash;{" "}
-            <span className="text-zinc-200">{data.albumName}</span>
+          <div className="text-sm text-warm-500">
+            <span className="text-warm-400">{data.artistName}</span>
+            <span className="mx-2 text-warm-700">/</span>
+            <span className="font-display font-semibold text-warm-100">
+              {data.albumName}
+            </span>
           </div>
         )}
       </div>
 
       {/* Content */}
       {isLoading ? (
-        <div className="flex flex-1 flex-col items-center justify-center gap-4">
-          <div className="relative">
-            <div className="h-16 w-16 animate-spin rounded-full border-4 border-zinc-800 border-t-spotify-green" />
-          </div>
+        <div className="flex flex-1 flex-col items-center justify-center gap-6">
+          <VinylSpinner />
           <div className="text-center">
-            <p className="text-sm font-medium text-zinc-300">{loadingStep}</p>
-            <p className="mt-1 text-xs text-zinc-500">
+            <p className="text-sm font-medium text-warm-300">{loadingStep}</p>
+            <p className="mt-1 text-xs text-warm-600">
               This may take a moment
             </p>
           </div>
         </div>
       ) : error ? (
-        <div className="flex flex-1 flex-col items-center justify-center gap-4">
-          <p className="text-zinc-400">{error}</p>
+        <div className="flex flex-1 flex-col items-center justify-center gap-5">
+          <p className="text-warm-400">{error}</p>
           <button
             onClick={() => params.id && handleCreate(params.id)}
-            className="rounded-full bg-zinc-800 px-6 py-2 text-sm font-medium text-zinc-200 transition-colors hover:bg-zinc-700"
+            className="rounded-full border border-warm-700 bg-warm-900 px-6 py-2.5 text-sm font-medium text-warm-200 transition-all hover:border-accent/40 hover:text-accent"
           >
             Retry
           </button>
         </div>
       ) : data ? (
-        <div className="flex-1 p-4">
+        <div className="flex-1 p-4 sm:p-6">
           <div className="mx-auto h-[calc(100vh-80px)] max-w-4xl">
             <PDFViewer
               width="100%"
               height="100%"
-              className="rounded-lg"
+              className="rounded-xl border border-warm-800"
               showToolbar={true}
             >
               <PDF
@@ -212,7 +211,7 @@ function PosterContent() {
 function PosterLoading() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <Spinner />
+      <VinylSpinner />
     </div>
   );
 }

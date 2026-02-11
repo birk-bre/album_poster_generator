@@ -3,6 +3,7 @@ import { NextAuthProvider } from "./providers";
 import { auth } from "@/auth";
 import { LogoutButton } from "./buttons";
 import { Syne, DM_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default async function RootLayout({
           )}
           {children}
         </NextAuthProvider>
+        <Analytics />
       </body>
     </html>
   );

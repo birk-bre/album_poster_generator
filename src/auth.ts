@@ -1,6 +1,12 @@
 import NextAuth from "next-auth";
 import Spotify from "next-auth/providers/spotify";
 
+// Ensure AUTH_URL is set on Vercel when neither AUTH_URL nor NEXTAUTH_URL is configured.
+// Vercel auto-sets VERCEL_URL (without protocol), but Auth.js v5 needs a full URL.
+if (!process.env.AUTH_URL && !process.env.NEXTAUTH_URL && process.env.VERCEL_URL) {
+  process.env.AUTH_URL = `https://${process.env.VERCEL_URL}`;
+}
+
 const SPOTIFY_REFRESH_TOKEN_URL = "https://accounts.spotify.com/api/token";
 
 async function refreshAccessToken(token: any) {
@@ -45,6 +51,7 @@ async function refreshAccessToken(token: any) {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
   providers: [
     Spotify({

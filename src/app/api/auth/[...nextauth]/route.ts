@@ -3,35 +3,20 @@ import { authConfig } from "@/auth";
 import { NextRequest } from "next/server";
 
 /**
- * Spotify rejects "localhost" as an insecure redirect URI.
- * Next.js NextRequest normalizes 127.0.0.1 → localhost, so we call
- * Auth from @auth/core directly with a plain Request to preserve
- * the 127.0.0.1 origin from AUTH_URL.
+ * Spotify rejects "localhost" as an insecure redirect URI, requiring
+ * 127.0.0.1 instead. Next.js NextRequest normalizes 127.0.0.1 → localhost,
+ * so we call Auth from @auth/core directly with a plain Request to
+ * preserve the 127.0.0.1 origin from AUTH_URL.
  *
- * On the callback, Spotify redirects to 127.0.0.1 but auth cookies
- * live on localhost (where the user started). So we bounce the
- * callback back to localhost (keeping query params), then process
- * it with the URL rewritten to 127.0.0.1 for the token exchange.
+ * Access the dev app at http://127.0.0.1:3000 (not localhost) so that
+ * auth cookies and the Spotify callback share the same origin.
  */
 
-function getAuthOrigin(): URL | null {
-  const authUrl = process.env.AUTH_URL;
-  if (!authUrl) return null;
-  return new URL(authUrl);
-}
-
-function isCallbackBounce(req: NextRequest): boolean {
-  const host = req.headers.get("host") ?? "";
-  return (
-    host.startsWith("127.0.0.1") &&
-    req.nextUrl.pathname.includes("/api/auth/callback/")
-  );
-}
-
 function buildRequest(req: NextRequest): Request {
-  const target = getAuthOrigin();
-  if (!target) return req;
+  const authUrl = process.env.AUTH_URL;
+  if (!authUrl) return req;
 
+  const target = new URL(authUrl);
   const currentOrigin = req.nextUrl.origin;
   if (currentOrigin === target.origin) return req;
 
@@ -56,14 +41,6 @@ function getConfig() {
 }
 
 export async function GET(req: NextRequest) {
-  // When Spotify redirects to 127.0.0.1, bounce to localhost
-  // so the browser sends auth cookies (which live on localhost).
-  if (isCallbackBounce(req)) {
-    const port = (req.headers.get("host") ?? "").split(":")[1] || "3000";
-    const target = `http://localhost:${port}${req.nextUrl.pathname}${req.nextUrl.search}`;
-    return new Response(null, { status: 302, headers: { Location: target } });
-  }
-
   return Auth(buildRequest(req), getConfig()) as Promise<Response>;
 }
 

@@ -3,7 +3,7 @@ import skmeans from "skmeans";
 import convert from "color-convert";
 
 export async function processImage(
-  canvasRef: RefObject<HTMLCanvasElement>,
+  canvasRef: RefObject<HTMLCanvasElement | null>,
   file?: File
 ) {
   if (!file) return;

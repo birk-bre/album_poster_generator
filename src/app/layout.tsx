@@ -1,14 +1,11 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
 import { NextAuthProvider } from "./providers";
-import { getServerSession } from "next-auth";
+import { auth } from "@/auth";
 import { LogoutButton } from "./buttons";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata = {
-  title: "Album Genereator",
-  description: "Create a poster from your favorite albums",
+  title: "Album Poster Generator",
+  description: "Create stunning printable posters from your favorite albums",
 };
 
 export default async function RootLayout({
@@ -16,16 +13,19 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession();
+  const session = await auth();
+
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-slate-900`}>
-        <NextAuthProvider>{children}</NextAuthProvider>
-        {session ? (
-          <div className="absolute top-4 right-4 text-white">
-            <LogoutButton />
-          </div>
-        ) : null}
+      <body>
+        <NextAuthProvider>
+          {session && (
+            <nav className="fixed top-0 right-0 z-50 p-4">
+              <LogoutButton />
+            </nav>
+          )}
+          {children}
+        </NextAuthProvider>
       </body>
     </html>
   );

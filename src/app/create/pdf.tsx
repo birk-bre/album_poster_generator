@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import {
   Document,
@@ -92,7 +93,7 @@ export default function PDF({
               justifyContent: "space-between",
             }}
           >
-            {/* FIRST SECTION */}
+            {/* Track listing */}
             <View style={{ display: "flex", gap: "-2px" }}>
               {songs.map((song, index) => (
                 <Text key={index} style={styles.song}>
@@ -133,7 +134,9 @@ export default function PDF({
               }}
             >
               <View style={{ display: "flex", alignItems: "flex-end" }}>
-                <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
+                <View
+                  style={{ display: "flex", flexDirection: "row", gap: 8 }}
+                >
                   {colors.map((color, index) => (
                     <View
                       key={index}

@@ -6,7 +6,7 @@ const SPOTIFY_REFRESH_TOKEN_URL = "https://accounts.spotify.com/api/token";
 async function refreshAccessToken(token: any) {
   try {
     const clientId =
-      process.env.AUTH_SPOTIFY_ID ?? process.env.SPOTIFY_CLIENT_ID ?? "";
+      process.env.AUTH_SPOTIFY_ID ?? process.env.AUTH_SPOTIFY_CLIENT_ID ?? process.env.SPOTIFY_CLIENT_ID ?? "";
     const clientSecret =
       process.env.AUTH_SPOTIFY_SECRET ?? process.env.SPOTIFY_CLIENT_SECRET ?? "";
 
@@ -48,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Spotify({
       clientId:
-        process.env.AUTH_SPOTIFY_ID ?? process.env.SPOTIFY_CLIENT_ID ?? "",
+        process.env.AUTH_SPOTIFY_ID ?? process.env.AUTH_SPOTIFY_CLIENT_ID ?? process.env.SPOTIFY_CLIENT_ID ?? "",
       clientSecret:
         process.env.AUTH_SPOTIFY_SECRET ??
         process.env.SPOTIFY_CLIENT_SECRET ??

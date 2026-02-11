@@ -1,9 +1,10 @@
 import NextAuth from "next-auth";
 import Spotify from "next-auth/providers/spotify";
 
-// Ensure AUTH_URL is set on Vercel when neither AUTH_URL nor NEXTAUTH_URL is configured.
-// Vercel auto-sets VERCEL_URL (without protocol), but Auth.js v5 needs a full URL.
-if (!process.env.AUTH_URL && !process.env.NEXTAUTH_URL && process.env.VERCEL_URL) {
+// Ensure AUTH_URL is set on Vercel. VERCEL_URL is auto-provided (without protocol).
+// AUTH_URL takes priority over NEXTAUTH_URL in Auth.js v5, so setting it here
+// also overrides any stale/invalid NEXTAUTH_URL value.
+if (!process.env.AUTH_URL && process.env.VERCEL_URL) {
   process.env.AUTH_URL = `https://${process.env.VERCEL_URL}`;
 }
 

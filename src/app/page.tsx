@@ -1,10 +1,6 @@
-import { auth } from "@/auth";
-import { Login } from "./buttons";
 import Link from "next/link";
 
-export default async function Home() {
-  const session = await auth();
-
+export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col justify-end overflow-hidden p-6 sm:p-10 md:p-16">
       {/* Background decorative elements */}
@@ -54,29 +50,25 @@ export default async function Home() {
         </p>
 
         <div className="mt-8 flex items-center gap-6 md:mt-12" style={{ animationDelay: "200ms" }}>
-          {session ? (
-            <Link
-              href="/create"
-              className="group inline-flex items-center gap-3 rounded-full bg-accent px-7 py-3.5 text-base font-semibold text-warm-950 transition-all hover:bg-accent-light hover:shadow-[0_0_30px_rgba(200,169,110,0.2)] active:scale-[0.98]"
+          <Link
+            href="/create"
+            className="group inline-flex items-center gap-3 rounded-full bg-accent px-7 py-3.5 text-base font-semibold text-warm-950 transition-all hover:bg-accent-light hover:shadow-[0_0_30px_rgba(200,169,110,0.2)] active:scale-[0.98]"
+          >
+            Start Creating
+            <svg
+              className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2.5}
+              stroke="currentColor"
             >
-              Start Creating
-              <svg
-                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2.5}
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </Link>
-          ) : (
-            <Login />
-          )}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+              />
+            </svg>
+          </Link>
         </div>
       </div>
 
